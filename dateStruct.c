@@ -7,11 +7,13 @@ struct Date
     int year;
 };
 
+void addOneDay(struct Date *date);
 int compareDates(struct Date *date1, struct Date *date2);
-void printDate(struct Date *date);
+struct Date lastDayMonth(int month, int year);
+
+void printDate(struct Date date);
 int isLeapYear(int year);
 int daysInMonth(int month, int year);
-void addOneDay(struct Date *date);
 int isValidDate(struct Date *date);
 void printStagione(struct Date *date);
 void stampaGiornoSettimana(struct Date *date);
@@ -21,11 +23,12 @@ int main()
     // TESTING
     struct Date oggi = {28, 2, 2004};
     struct Date domani = {29, 2, 2004};
-    printDate(&oggi);
+    printDate(oggi);
     printf("%d\n", isLeapYear(2004));
     addOneDay(&oggi);
-    printDate(&oggi);
+    printDate(oggi);
     printf("%d\n", compareDates(&oggi, &domani));
+    printDate(lastDayMonth(1, 2001));
     return 0;
 }
 
@@ -42,11 +45,17 @@ int compareDates(struct Date *date1, struct Date *date2)
     return date1->day - date2->day;
 }
 
-void printDate(struct Date *date)
+void printDate(struct Date date)
 {
     const char *monthsNames[] = {"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
 
-    printf("%d %s %d\n", date->day, monthsNames[date->month - 1], date->year);
+    printf("%d %s %d\n", date.day, monthsNames[date.month - 1], date.year);
+}
+
+struct Date lastDayMonth(int month, int year)
+{
+    struct Date date = {daysInMonth(month, year), month, year};
+    return date;
 }
 
 int isLeapYear(int year)
@@ -105,17 +114,4 @@ void stampaGiornoSettimana(struct Date *date)
 {
     // possibile aggiunta https://it.wikipedia.org/wiki/Congruenza_di_Zeller
     // per calcolo giorno della settimana
-}
-
-int main()
-{
-    // TESTING
-    struct Date oggi = {28, 2, 2004};
-    struct Date domani = {29, 2, 2004};
-    printDate(&oggi);
-    printf("%d\n", isLeapYear(2004));
-    addOneDay(&oggi);
-    printDate(&oggi);
-    printf("%d\n", compareDates(&oggi, &domani));
-    return 0;
 }
